@@ -55,10 +55,10 @@ void oscilloscope_config::parse(ui_element_config_parser & parser) {
             m_zoom_percent = pfc::clip_t<t_uint32>(m_zoom_percent, 50, 800);
             break;
         default:
-            console::formatter() << core_api::get_my_file_name() << ": unknown configuration format version: " << version;
+            FB2K_console_formatter() << core_api::get_my_file_name() << ": unknown configuration format version: " << version;
         }
     } catch (exception_io &exc) {
-        console::formatter() << core_api::get_my_file_name() << ": exception while reading configuration data: " << exc;
+        FB2K_console_formatter() << core_api::get_my_file_name() << ": exception while reading configuration data: " << exc;
     }
 }
 

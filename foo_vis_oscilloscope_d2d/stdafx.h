@@ -4,18 +4,16 @@
 //
 
 #pragma once
+#pragma comment(lib, "d2d1.lib")
 
 #include "targetver.h"
 
-// Windows Header Files:
-#include <windows.h>
-
-
-
 // TODO: reference additional headers your program requires here
 
-#include <foobar2000/SDK/foobar2000.h>
-#include <foobar2000/ATLHelpers/ATLHelpers.h>
+#include <SDK/foobar2000.h>
+#ifdef __cplusplus
+#include <helpers/foobar2000+atl.h>
+#endif
 
 #include <d2d1.h>
 #include <d2d1helper.h>

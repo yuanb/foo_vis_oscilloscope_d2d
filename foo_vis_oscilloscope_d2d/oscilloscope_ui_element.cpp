@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include <helpers/BumpableElem.h>
 #include "oscilloscope_ui_element.h"
 
 void oscilloscope_ui_element_instance::g_get_name(pfc::string_base & p_out) {
@@ -81,7 +81,7 @@ LRESULT oscilloscope_ui_element_instance::OnCreate(LPCREATESTRUCT lpCreateStruct
     hr = CreateDeviceIndependentResources();
 
     if (FAILED(hr)) {
-        console::formatter() << core_api::get_my_file_name() << ": could not create Direct2D factory";
+        FB2K_console_formatter() << core_api::get_my_file_name() << ": could not create Direct2D factory";
     }
 
     try {
@@ -92,7 +92,7 @@ LRESULT oscilloscope_ui_element_instance::OnCreate(LPCREATESTRUCT lpCreateStruct
         m_vis_stream->request_backlog(0.8);
         UpdateChannelMode();
     } catch (std::exception & exc) {
-        console::formatter() << core_api::get_my_file_name() << ": exception while creating visualisation stream: " << exc;
+        FB2K_console_formatter() << core_api::get_my_file_name() << ": exception while creating visualisation stream: " << exc;
     }
 
     return 0;
@@ -540,4 +540,5 @@ void oscilloscope_ui_element_instance::DiscardDeviceResources() {
     m_pStrokeBrush.Release();
 }
 
-static service_factory_single_t< ui_element_impl_visualisation< oscilloscope_ui_element_instance> > g_ui_element_factory;
+class ui_element_myimpl : public ui_element_impl_withpopup<oscilloscope_ui_element_instance> {};
+static service_factory_single_t<ui_element_myimpl> g_ui_element_factory;
