@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "resource.h"
+#include <helpers/WindowPositionUtils.h>
+#include <helpers/atl-misc.h>
 
 class CPlaybackStateDemo : public CDialogImpl<CPlaybackStateDemo>, private play_callback_impl_base {
 public:
 	enum {IDD = IDD_PLAYBACK_STATE};
 
-	BEGIN_MSG_MAP(CPlaybackStateDemo)
+	BEGIN_MSG_MAP_EX(CPlaybackStateDemo)
 		MSG_WM_INITDIALOG(OnInitDialog)
 		COMMAND_HANDLER_EX(IDC_PATTERN, EN_CHANGE, OnPatternChange)
 		COMMAND_HANDLER_EX(IDCANCEL, BN_CLICKED, OnCancel)
@@ -122,7 +124,7 @@ void CPlaybackStateDemo::OnContextMenu(CWindow wnd, CPoint point) {
 				api->win32_build_menu(menu, ID_CM_BASE, ~0);
 				menudesc.SetCM(api.get_ptr(), ID_CM_BASE, ~0);
 			} else {
-				menu.AppendMenu(MF_STRING|MF_GRAYED|MF_DISABLED, (UINT)0, _T("No items selected"));
+				menu.AppendMenu(MF_STRING|MF_GRAYED|MF_DISABLED, (UINT_PTR)0, _T("No items selected"));
 			}
 			
 			int cmd = menu.TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NONOTIFY|TPM_RETURNCMD,point.x,point.y,menudesc,0);

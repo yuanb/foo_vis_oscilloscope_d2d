@@ -1,3 +1,5 @@
+#pragma once
+
 PFC_DECLARE_EXCEPTION(exception_tag_not_found,exception_io_data,"Tag not found");
 
 //! Callback interface for write-tags-to-temp-file-and-swap scheme, used for ID3v2 tag updates and such where entire file needs to be rewritten. 
@@ -12,8 +14,8 @@ protected:
 	tag_write_callback() {}
 	~tag_write_callback() {}
 private:
-	tag_write_callback(const tag_write_callback &) {throw pfc::exception_not_implemented();}
-	const tag_write_callback & operator=(const tag_write_callback &) {throw pfc::exception_not_implemented();}
+	tag_write_callback(const tag_write_callback &) = delete;
+	void operator=(const tag_write_callback &) = delete;
 };
 
 class tag_write_callback_dummy : public tag_write_callback {
@@ -35,8 +37,9 @@ public:
 	static t_size g_multiskip(const service_ptr_t<file> & p_file,t_filesize & p_size_skipped,abort_callback & p_abort);
 	static void g_remove(const service_ptr_t<file> & p_file,t_filesize & p_size_removed,abort_callback & p_abort);
 	static void g_remove_ex(tag_write_callback & p_callback,const service_ptr_t<file> & p_file,t_filesize & p_size_removed,abort_callback & p_abort);
+	static uint32_t g_tagsize(const void* pHeader10bytes);
 
-	FB2K_MAKE_SERVICE_INTERFACE_ENTRYPOINT(tag_processor_id3v2);
+	FB2K_MAKE_SERVICE_COREAPI(tag_processor_id3v2);
 };
 
 //! For internal use - call tag_processor namespace methods instead.
@@ -60,7 +63,7 @@ public:
 	void write_apev2_id3v1(const service_ptr_t<file> & p_file,const file_info & p_info,abort_callback & p_abort);
 
 
-	FB2K_MAKE_SERVICE_INTERFACE_ENTRYPOINT(tag_processor_trailing);
+	FB2K_MAKE_SERVICE_COREAPI(tag_processor_trailing);
 };
 
 namespace tag_processor {
@@ -86,7 +89,8 @@ namespace tag_processor {
 	void remove_id3v2_trailing(const service_ptr_t<file> & p_file,abort_callback & p_abort);
 	//! Reads trailing tags from the file.
 	void read_trailing(const service_ptr_t<file> & p_file,file_info & p_info,abort_callback & p_abort);
-	//! Reads trailing tags from the file. Extended version, returns offset at which parsed tags start.
+	//! Reads trailing tags from the file. Extended version, returns offset at which parsed tags start. \n
+	//! p_tagoffset set to offset of found tags, to EOF if no tags were found.
 	void read_trailing_ex(const service_ptr_t<file> & p_file,file_info & p_info,t_filesize & p_tagoffset,abort_callback & p_abort);
 	//! Reads ID3v2 tags from specified file.
 	void read_id3v2(const service_ptr_t<file> & p_file,file_info & p_info,abort_callback & p_abort);
@@ -94,6 +98,7 @@ namespace tag_processor {
 	void read_id3v2_trailing(const service_ptr_t<file> & p_file,file_info & p_info,abort_callback & p_abort);
 
 	void skip_id3v2(const service_ptr_t<file> & p_file,t_filesize & p_size_skipped,abort_callback & p_abort);
+    t_filesize skip_id3v2(file::ptr const & f, abort_callback & a);
 
 	bool is_id3v1_sufficient(const file_info & p_info);
 	void truncate_to_id3v1(file_info & p_info);

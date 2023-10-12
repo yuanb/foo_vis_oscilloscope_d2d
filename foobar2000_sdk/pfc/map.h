@@ -1,5 +1,5 @@
-#ifndef _MAP_T_H_INCLUDED_
-#define _MAP_T_H_INCLUDED_
+#pragma once
+#include "avltree.h"
 
 namespace pfc {
 	PFC_DECLARE_EXCEPTION(exception_map_entry_not_found,exception,"Map entry not found");
@@ -122,13 +122,13 @@ namespace pfc {
 		}
 
 		template<typename t_callback>
-		void enumerate(t_callback & p_callback) const {
+		void enumerate(t_callback && p_callback) const {
             enumeration_wrapper<t_callback> cb(p_callback);
 			m_data.enumerate(cb);
 		}
 
 		template<typename t_callback>
-		void enumerate(t_callback & p_callback) {
+		void enumerate(t_callback && p_callback) {
             enumeration_wrapper_var<t_callback> cb(p_callback);
 			m_data._enumerate_var(cb);
 		}
@@ -149,11 +149,24 @@ namespace pfc {
 
 
 		template<typename _t_key> bool get_first(_t_key & p_out) const {
-			return m_data.get_first(t_retrieve_key<_t_key>(p_out));
+			t_retrieve_key<_t_key> wrap(p_out);
+			return m_data.get_first(wrap);
 		}
 
 		template<typename _t_key> bool get_last(_t_key & p_out) const {
-			return m_data.get_last(t_retrieve_key<_t_key>(p_out));
+			t_retrieve_key<_t_key> wrap(p_out);
+			return m_data.get_last(wrap);
+		}
+
+
+		map_t() {}
+		map_t( const t_self & other ) : m_data( other.m_data ) {}
+		map_t( t_self && other ) : m_data( std::move(other.m_data) ) {}
+		const t_self & operator=( const t_self & other ) {m_data = other.m_data; return *this;}
+		const t_self & operator=( t_self && other ) { m_data = std::move(other.m_data); return *this; }
+
+		void move_from(t_self & other) {
+			m_data.move_from( other.m_data );
 		}
 
 	private:
@@ -226,10 +239,20 @@ namespace pfc {
 		typedef typename t_content::const_iterator const_iterator;
 		typedef typename t_content::iterator iterator;
 
+		typedef typename t_content::forward_iterator forward_iterator;
+		typedef typename t_content::forward_const_iterator forward_const_iterator;
+
 		iterator first() throw() {return m_data._first_var();}
 		iterator last() throw() {return m_data._last_var();}
 		const_iterator first() const throw() {return m_data.first();}
 		const_iterator last() const throw() {return m_data.last();}
+		const_iterator cfirst() const throw() {return m_data.first();}
+		const_iterator clast() const throw() {return m_data.last();}
+
+		forward_iterator begin() { return first(); }
+		forward_const_iterator begin() const { return first(); }
+		forward_iterator end() { return forward_iterator(); }
+		forward_const_iterator end() const { return forward_const_iterator(); }
 
 		template<typename _t_key> iterator find(const _t_key & key) {return m_data.find(t_search_query<_t_key>(key));}
 		template<typename _t_key> const_iterator find(const _t_key & key) const {return m_data.find(t_search_query<_t_key>(key));}
@@ -252,5 +275,3 @@ namespace pfc {
 		}
 	};
 }
-
-#endif //_MAP_T_H_INCLUDED_

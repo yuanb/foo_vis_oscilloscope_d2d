@@ -1,13 +1,14 @@
 #include "stdafx.h"
+#include <helpers/input_helpers.h>
 
 class calculate_peak_process : public threaded_process_callback {
 public:
 	calculate_peak_process(metadb_handle_list_cref items) : m_items(items), m_peak() {}
-	void on_init(HWND p_wnd) {}
-	void run(threaded_process_status & p_status,abort_callback & p_abort) {
+	void on_init(ctx_t p_wnd) override {}
+	void run(threaded_process_status & p_status,abort_callback & p_abort) override {
 		try {
 			const t_uint32 decode_flags = input_flag_no_seeking | input_flag_no_looping; // tell the decoders that we won't seek and that we don't want looping on formats that support looping.
-			input_helper input;
+			input_helper input; // this object manages lowlevel input_decoder calls for us.
 			for(t_size walk = 0; walk < m_items.get_size(); ++walk) {
 				p_abort.check(); // in case the input we're working with fails at doing this
 				p_status.set_progress(walk, m_items.get_size());
@@ -40,7 +41,7 @@ public:
 			m_failMsg = e.what();
 		}
 	}
-	void on_done(HWND p_wnd,bool p_was_aborted) {
+	void on_done(ctx_t p_wnd,bool p_was_aborted) override {
 		if (!p_was_aborted) {
 			if (!m_failMsg.is_empty()) {
 				popup_message::g_complain("Peak scan failure", m_failMsg);
