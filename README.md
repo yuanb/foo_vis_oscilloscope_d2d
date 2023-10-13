@@ -9,6 +9,7 @@ The intention for this fork is to bring the code base and project files updated 
 ## Tested
 Visual Studio 2022 17.7.4 Community Edition  
 foobar 2000 v2.0 (x86)  
+Windows 11  
 
 ## TODO
 Fix x64 platform Debug|Release.  
