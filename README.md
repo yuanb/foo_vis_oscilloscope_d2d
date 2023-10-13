@@ -1,5 +1,7 @@
 # Oscilloscope visualization with Direct2D rendering for foobar2000
 
+[![vis_osc](site/images/foobar2000_vis_oscilloscope.png)](site/images/foobar2000_vis_oscilloscope.png)  
+
 ## Cover
 This is a fork of [Oscilloscope visualization with Direct2D rendering for foobar2000](https://github.com/stengerh/foo_vis_oscilloscope_d2d).  
 The intention for this fork is to bring the code base and project files updated to the latest version of Visual Studio.  
