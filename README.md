@@ -12,10 +12,10 @@ foobar 2000 v2.0 (x86)
 Windows 11  
 
 ## TODO
-Fix x64 build Debug | Release.  
+Fix x64 Debug link issue.  
 
 ## Update history
 2023-10-12  
 Updated with foobar2000 SDK-2023-09-23.7z  
-Updated with Visual Studio 2022 code fix and project file for Win32 Debug|Release; x64 Debug references.  
+Updated with Visual Studio 2022 code fix and project file for Win32 Debug|Release; x64 Release.
 
