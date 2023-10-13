@@ -6,6 +6,9 @@
 This is a fork of [Oscilloscope visualization with Direct2D rendering for foobar2000](https://github.com/stengerh/foo_vis_oscilloscope_d2d).  
 The intention for this fork is to bring the code base and project files updated to the latest version of Visual Studio.  
 
+## Tested
+Visual Studio 2022 17.7.4 Community Edition  
+foobar 2000 v2.0 (x86)  
 
 ## TODO
 Fix x64 platform Debug|Release.  

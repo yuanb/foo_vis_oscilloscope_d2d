@@ -540,5 +540,5 @@ void oscilloscope_ui_element_instance::DiscardDeviceResources() {
     m_pStrokeBrush.Release();
 }
 
-class ui_element_myimpl : public ui_element_impl_withpopup<oscilloscope_ui_element_instance> {};
-static service_factory_single_t<ui_element_myimpl> g_ui_element_factory;
+class ui_element_oscilloscopeimpl : public ui_element_impl_withpopup<oscilloscope_ui_element_instance> {};
+static service_factory_single_t<ui_element_oscilloscopeimpl> g_ui_element_factory;
