@@ -16,3 +16,6 @@
 /foobar2000_sdk/foobar2000/SDK/Release
 /foobar2000_sdk/pfc/Debug
 /foobar2000_sdk/pfc/Release
+.vs
+*.log
+/foobar2000_sdk
