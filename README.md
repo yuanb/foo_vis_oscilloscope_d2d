@@ -1,5 +1,7 @@
 # Oscilloscope visualization with Direct2D rendering for foobar2000
 
+## Updated to support Visual Studio 2022 on Windows 11 with support of Win32 and x64 build targets
+
 [![vis_osc](images/foobar2000_vis_oscilloscope.png)](images/foobar2000_vis_oscilloscope.png)  
 
 ## Cover
